@@ -6,8 +6,6 @@ import com.devsuperior.clientes.repositories.ClientRepository;
 import com.devsuperior.clientes.services.exceptions.DatabaseException;
 import com.devsuperior.clientes.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -15,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -36,7 +33,7 @@ public class ClientService {
     public ClientDTO findById(Long id) {
         Optional<Client> result = clientRepository.findById(id);
         Client client = result.orElseThrow(
-                () -> new ResourceNotFoundException("Recurso não encontrado"));
+                () -> new ResourceNotFoundException("Id não encontrado"));
         ClientDTO dto = new ClientDTO(client);
         return dto;
     }
@@ -60,7 +57,7 @@ public class ClientService {
             return new ClientDTO(entity); //reconverter para DTO
         }
         catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Recurso não encontrado");
+            throw new ResourceNotFoundException("Id não encontrado");
         }
     }
 
@@ -68,7 +65,7 @@ public class ClientService {
     @Transactional//(propagation = Propagation.SUPPORTS) //
     public void delete(Long id) {
         if (!clientRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Recurso não encontrado");
+            throw new ResourceNotFoundException("Id não encontrado");
         }
         try {
             clientRepository.deleteById(id);
@@ -86,7 +83,5 @@ public class ClientService {
         entity.setBirthDate(dto.getBirthDate());
         entity.setChildren(dto.getChildren());
     }
-
-
 
 }
