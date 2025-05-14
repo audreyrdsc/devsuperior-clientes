@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
@@ -18,6 +19,7 @@ public class ClientDTO {
     @NotBlank(message = "Campo deve ser preenchido")
     @Size(min = 3, max = 255, message = "Nome precisa ter entre 3 e 255 caracteres")
     private String name;
+    @CPF
     private String cpf;
     @PositiveOrZero(message = "A renda informada deve ser maior ou igual a zero")
     private Double income;

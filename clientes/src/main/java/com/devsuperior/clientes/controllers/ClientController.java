@@ -42,7 +42,18 @@ public class ClientController {
         return ResponseEntity.created(uri).body(dto);
     }
 
+    //Rota de atualização de dados de cliente existente pelo id
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @Valid @RequestBody ClientDTO dto) {
+        dto = clientService.update(id, dto);
+        return ResponseEntity.ok(dto);
+    }
 
-
+    //Rota de deleção de cliente existente pelo id
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        clientService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
